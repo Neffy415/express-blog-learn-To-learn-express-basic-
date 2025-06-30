@@ -1,0 +1,9 @@
+[
+  {
+    "id": 3,
+    "title": " Building a Blog with Express and EJS",
+    "desc": "Learn how to set up a simple blogging site using Express.js and EJS templating. No database required — perfect for beginners!",
+    "image": "Screenshot 2025-06-19 160013.png",
+    "createdAt": "2025-06-30T16:56:27.143Z"
+  }
+]
