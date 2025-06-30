@@ -50,7 +50,7 @@ app.post("/submit", upload.single("image"), (req, res) => {
   const desc = req.body["description"];
   const image = req.file;
   data.push({
-    id: data.length + 1,
+    id: Date.now(), // Use timestamp for a unique ID
     title,
     desc,
     image: image?.filename, // Save only the filename
@@ -58,6 +58,33 @@ app.post("/submit", upload.single("image"), (req, res) => {
   });
   saveData();
   res.redirect("/"); // Redirect to home after submit
+});
+
+app.get("/edit/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const post = data.find(p => p.id === id);
+  if (post) {
+    res.render("edit.ejs", { post: post });
+  } else {
+    res.status(404).send("Post not found");
+  }
+});
+
+app.post("/update/:id", upload.single("image"), (req, res) => {
+  const id = parseInt(req.params.id);
+  const post = data.find(p => p.id === id);
+
+  if (post) {
+    post.title = req.body.title || post.title;
+    post.desc = req.body.description || post.desc;
+    if (req.file) {
+      post.image = req.file.filename;
+    }
+    saveData();
+    res.redirect("/");
+  } else {
+    res.status(404).send("Post not found");
+  }
 });
 
 app.post("/delete/:id", (req, res) => {
